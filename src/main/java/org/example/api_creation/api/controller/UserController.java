@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class UserController {
 
 
     @Autowired
     private UserService userService;
+    private org.example.api_creation.api.dto.UserRequest UserRequest;
 
 
     @RequestMapping(path = "/userLogin")
@@ -30,6 +31,16 @@ public class UserController {
     @GetMapping(path = "/getUsers")
     public List<Map<String, Object>> getUsers() {
     return userService.getUsers();
+    }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<String> insertUser(@RequestBody User user) {
+        try {
+            userService.insertUser( UserRequest );
+            return ResponseEntity.ok("User created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error creating user: " + e.getMessage());
+        }
     }
 
 }

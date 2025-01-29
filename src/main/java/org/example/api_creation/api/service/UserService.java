@@ -13,4 +13,7 @@ public interface  UserService {
         throws Exception;
 
     List<Map<String ,Object>> getUsers();
+
+    UserResponse insertUser( UserRequest userRequest)
+        throws Exception;
 }
