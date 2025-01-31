@@ -14,10 +14,10 @@ public class UserResponse {
     private String role;
 
     // Add a constructor that accepts id, username, email, and role
-    public UserResponse(Integer id, String username, String email, String role) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.role = role;
-    }
+//    public UserResponse(Integer id, String username, String email, String role) {
+//        this.id = id;
+//        this.username = username;
+//        this.email = email;
+//        this.role = role;
+//    }
 }

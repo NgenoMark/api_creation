@@ -29,18 +29,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse fetchUser(UserRequest userRequest) throws Exception {
         // Query the database for a user based on the userRequest's email
-        User user = userRepository.findByEmail(userRequest.getEmail());
+        User user = userRepository.findByUserIdEmail(userRequest.getEmail());
 
         if (user == null) {
             throw new Exception("User not found with email: " + userRequest.getEmail());
         }
 
         // Create and return the response with the user's details
-        return new UserResponse(
-                user.getUserId().getId(), // USER_ID
-                user.getUsername(),       // USERNAME
-                user.getUserId().getEmail(), // EMAIL
-                user.getRole()            // ROLE
+        return new UserResponse(// ROLE
         );
         //return new UserResponse(user.getUserId().getId(), user.getUsername(), user.getUserId().getEmail(), user.getRole());
     }
@@ -52,10 +48,18 @@ public class UserServiceImpl implements UserService {
     public List<Map<String, Object>> getUsers(){
         String query = "SELECT  * FROM users";
 
-        List<Map<String, Object>> users = jdbcTemplate.queryForList(query);
-
-        return users;
+        return jdbcTemplate.queryForList(query);
     }
+
+
+//    @Override
+//    public List<Map<String, Object>> getUsers(){
+//        String query = "SELECT  * FROM users";
+//
+//        List<Map<String, Object>> users = jdbcTemplate.queryForList(query);
+//
+//        return users;
+//    }
 
 
     @Override
@@ -83,11 +87,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
 
         // Return the UserResponse with data from the new user
-        return new UserResponse(
-                newUser.getUserId().getId(), // USER_ID
-                newUser.getUsername(),       // USERNAME
-                newUser.getUserId().getEmail(), // EMAIL
-                newUser.getRole()            // ROLE
+        return new UserResponse(           // ROLE
         );
         //return new UserResponse(newUser.getUserId().getId(), newUser.getUsername(), newUser.getUserId().getEmail(), newUser.getRole());
 

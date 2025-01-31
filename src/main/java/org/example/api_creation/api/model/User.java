@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class User {
 
     @EmbeddedId
-    private UserId userId;  // This combines id and email as a composite primary key
+    private UserId userId;  // Composite primary key
 
     @Column(name = "USERNAME", nullable = false, length = 50)
     private String username;
@@ -60,6 +60,18 @@ public class User {
     @Lob
     @Column(name = "STATUS")
     private String status;
+
+    @Column(name = "PROFILE_PICTURE")
+    private byte[] profilePicture;
+
+    @Column(name = "CREATED_AT")
+    private Instant createdAt;
+
+    @Column(name = "UPDATED_AT")
+    private Instant updatedAt;
+
+    @Column(name = "LAST_LOGIN")
+    private Instant lastLogin;
 
     public UserId getUserId() {
         return userId;
@@ -212,16 +224,4 @@ public class User {
     public void setLastLogin(Instant lastLogin) {
         this.lastLogin = lastLogin;
     }
-
-    @Column(name = "PROFILE_PICTURE")
-    private byte[] profilePicture;
-
-    @Column(name = "CREATED_AT")
-    private Instant createdAt;
-
-    @Column(name = "UPDATED_AT")
-    private Instant updatedAt;
-
-    @Column(name = "LAST_LOGIN")
-    private Instant lastLogin;
 }
