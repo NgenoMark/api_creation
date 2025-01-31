@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -108,6 +109,14 @@ public class UserServiceImpl implements UserService {
         String sql = "SELECT COALESCE(MAX(USER_ID), 0) + 1 FROM users";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
+
+
+    @Override
+    public Optional<User> searchUserByEmail(String email) {
+        // Use the repository to find the user by email
+        return userRepository.findByUserId_Email(email);
+    }
+
 
 
 }

@@ -1,12 +1,17 @@
 package org.example.api_creation.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
 public class UserId implements Serializable {
 
+    @Column(name = "user_id")  // Mapping the id field to user_id column in the table
     private Integer id;
+
+
+    @Column(name = "email")  // Mapping the id field to user_id column in the table
     private String email;
 
     // Constructors, Getters, Setters, hashCode, equals methods

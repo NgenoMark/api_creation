@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -39,6 +40,22 @@ public class UserController {
             return ResponseEntity.ok("User created successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating user: " + e.getMessage());
+        }
+    }
+
+
+    // Search User method
+    @GetMapping("/searchUser")
+    public ResponseEntity<Object> searchUser(@RequestParam String email) {
+        try {
+            Optional<User> user = userService.searchUserByEmail(email); // Searching by email, adjust if necessary
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user.get());  // Return the found user details
+            } else {
+                return ResponseEntity.status(404).body("User not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error searching user: " + e.getMessage());
         }
     }
 
