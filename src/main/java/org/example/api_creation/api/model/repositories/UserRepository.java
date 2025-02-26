@@ -1,19 +1,20 @@
 package org.example.api_creation.api.model.repositories;
 
 import org.example.api_creation.api.model.User;
-import org.example.api_creation.api.model.UserId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, UserId> {
+public interface UserRepository extends CrudRepository<User, Integer> {
 
-    User findByUserIdEmail(String email);
+    //User findByUserEmail(String email);
 
 
-    Optional<User> findByUserId_Email(String email);  // Method to search user by email
+    Optional<User> findByEmail(String email);  // Method to search user by email
+
+    Optional<User> deleteByEmail(String email); // Delete user by email
 
 
 }

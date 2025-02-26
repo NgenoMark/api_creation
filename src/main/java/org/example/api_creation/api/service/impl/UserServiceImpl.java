@@ -3,7 +3,6 @@ package org.example.api_creation.api.service.impl;
 import org.example.api_creation.api.dto.UserRequest;
 import org.example.api_creation.api.dto.UserResponse;
 import org.example.api_creation.api.model.User;
-import org.example.api_creation.api.model.UserId;
 import org.example.api_creation.api.model.repositories.UserRepository;
 import org.example.api_creation.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse fetchUser(UserRequest userRequest) throws Exception {
         // Query the database for a user based on the userRequest's email
-        User user = userRepository.findByUserIdEmail(userRequest.getEmail());
+        User user = userRepository.findByUserEmail(userRequest.getEmail());
 
         if (user == null) {
             throw new Exception("User not found with email: " + userRequest.getEmail());
@@ -64,17 +63,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserResponse insertUser(UserRequest userRequest) throws Exception {
+    public void insertUser(User userRequest) throws Exception {
         Integer userId = generateNewUserId();
 
         // Check if user already exists
-        if (userRepository.existsById(new UserId(userId, userRequest.getEmail()))) {
-            throw new Exception("User already exists with email: " + userRequest.getEmail());
-        }
+//        if (userRepository.existsById(new UserId(userId, userRequest.getEmail()))) {
+//            throw new Exception("User already exists with email: " + userRequest.getEmail());
+//        }
 
         // Create and save user
         User newUser = new User();
-        newUser.setUserId(new UserId(userId, userRequest.getEmail()));
+        newUser.setId(new User(userId, userRequest.getUsername()).getId());
 
         newUser.setUsername(userRequest.getUsername());
         newUser.setPasswordHash(hashPassword(userRequest.getPasswordHash()));
@@ -88,8 +87,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
 
         // Return the UserResponse with data from the new user
-        return new UserResponse(           // ROLE
-        );
+        new UserResponse();
         //return new UserResponse(newUser.getUserId().getId(), newUser.getUsername(), newUser.getUserId().getEmail(), newUser.getRole());
 
     }
@@ -114,8 +112,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> searchUserByEmail(String email) {
         // Use the repository to find the user by email
-        return userRepository.findByUserId_Email(email);
+        return userRepository.findByUserEmail(email);
     }
+
+
+    @Override
+    public void deleteUserByEmail(String email) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByUserIdEmail(email)); // Adjusted to use UserId.email
+        if (user.isPresent()) {
+            userRepository.deleteByUserIdEmail(email); // Adjusted to delete by UserId.email
+        } else {
+            throw new IllegalArgumentException("User not found with email: " + email);
+        }
+    }
+
+
 
 
 

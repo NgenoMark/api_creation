@@ -12,12 +12,16 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users", schema = "apicrt")
 public class User {
-
-    @EmbeddedId
-    private UserId userId;  // Composite primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", nullable = false)
+    private Integer id;
 
     @Column(name = "USERNAME", nullable = false, length = 50)
     private String username;
+
+    @Column(name = "EMAIL", nullable = false, length = 100)
+    private String email;
 
     @Column(name = "PASSWORD_HASH", nullable = false)
     private String passwordHash;
@@ -61,24 +65,12 @@ public class User {
     @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "PROFILE_PICTURE")
-    private byte[] profilePicture;
-
-    @Column(name = "CREATED_AT")
-    private Instant createdAt;
-
-    @Column(name = "UPDATED_AT")
-    private Instant updatedAt;
-
-    @Column(name = "LAST_LOGIN")
-    private Instant lastLogin;
-
-    public UserId getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(UserId userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -87,6 +79,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPasswordHash() {
@@ -224,4 +224,17 @@ public class User {
     public void setLastLogin(Instant lastLogin) {
         this.lastLogin = lastLogin;
     }
+
+    @Column(name = "PROFILE_PICTURE")
+    private byte[] profilePicture;
+
+    @Column(name = "CREATED_AT")
+    private Instant createdAt;
+
+    @Column(name = "UPDATED_AT")
+    private Instant updatedAt;
+
+    @Column(name = "LAST_LOGIN")
+    private Instant lastLogin;
+
 }

@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("/createUser")
     public ResponseEntity<String> insertUser(@RequestBody User user) {
         try {
-            userService.insertUser( UserRequest );
+            userService.insertUser(user);
             return ResponseEntity.ok("User created successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating user: " + e.getMessage());
@@ -58,5 +58,19 @@ public class UserController {
             return ResponseEntity.status(500).body("Error searching user: " + e.getMessage());
         }
     }
+
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestBody String email) {
+        try {
+            userService.deleteUserByEmail(email);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body("User not found: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting user: " + e.getMessage());
+        }
+    }
+
 
 }

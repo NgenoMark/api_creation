@@ -16,9 +16,11 @@ public interface  UserService {
 
     List<Map<String ,Object>> getUsers();
 
-    UserResponse insertUser( UserRequest userRequest)
+    void insertUser(User userRequest)
         throws Exception;
 
     Optional<User> searchUserByEmail(String userRequest)
         throws Exception;
+
+    void deleteUserByEmail(String email);
 }
